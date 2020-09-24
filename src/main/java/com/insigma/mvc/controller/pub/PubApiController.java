@@ -67,5 +67,26 @@ public class PubApiController {
 		return pubService.call(interface_id, hm,request);
 	}
 	
+	/**
+	 * 分析库数据接口总入口
+	 * @param request 数据包
+	 * @param interface_id 接口编号
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/{interface_id}",method = RequestMethod.POST)
+	@ApiOperation(value="分析库数据接口总入口",notes="分析库数据接口总入口")
+	@ApiImplicitParams({
+        @ApiImplicitParam(paramType="interface_id", name = "interface_id", value = "接口编号", required = true, dataType = "String")
+    })
+    @CrossOrigin
+	public R call2(@RequestBody @ApiParam(value = "公共参数") Pub pub ,@PathVariable("interface_id") String interface_id,HttpServletRequest request,HttpServletResponse response) throws Exception{
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		HashMap hm=new HashMap();
+		BeanCopyUtil.CopytoHashMap(pub, hm);
+		return pubService.call(interface_id, hm,request);
+	}
+	
 
 }
