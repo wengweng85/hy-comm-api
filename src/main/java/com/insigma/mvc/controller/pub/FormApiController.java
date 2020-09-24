@@ -46,6 +46,21 @@ public class FormApiController {
 
 	@Autowired
 	private FormService formservice;
+	
+	/**
+	 * 查询
+	 * @param a01query
+	 * @return
+	 */
+	@RequestMapping(value="/a01s",method = RequestMethod.GET)
+	@ApiOperation(value="分页查询例子",notes="分页查询例子")
+	@UserLog
+    public R find(){
+		A01DTO dto=new A01DTO();
+		dto.setPage("1");
+		dto.setSize("10");
+        return R.success(formservice.findA01(dto));
+    }
 
 	/**
 	 * 查询

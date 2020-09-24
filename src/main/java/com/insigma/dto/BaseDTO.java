@@ -8,10 +8,12 @@ import com.insigma.dto.validgroup.Query;
 
 public class BaseDTO {
 	
+	//页码
 	@NotBlank(message = "page不能为空",groups = Query.class)
 	@Pattern(regexp = "^[0-9]*$",message="页码必须为数字",groups = Query.class)
     private String page;
 	
+	//每页面条数
 	@NotBlank(message = "size不能为空",groups = Query.class)
 	@Pattern(regexp = "^[0-9]*$",message="size页码必须为数字",groups = Query.class)
 	private String size;
