@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.insigma.mvc.repository.main.dao.pub.PubMapper">
+	<select id="commonQuery" parameterType="java.util.HashMap" resultType="HashMap">
+	    SELECT * FROM  ${interface_id}
+	    <where>
+	        <!-- 地区编码 -->
+		    <if test="area_code!=null and area_code!=''">
+				 area_code = #{area_code}
+			</if>
+			<if test="area_name!=null and area_name!=''">
+				 and area_name = #{area_name}
+			</if>
+	        <if test="year!=null and year!=''">
+				 and  year = #{year}
+			</if>
+			<if test="area_code_fath!=null and area_code_fath!=''">
+				and  area_code_fath = #{area_code_fath}
+			</if>
+			<if test="area_code_grand!=null and area_code_grand!=''">
+				and  area_code_grand = #{area_code_grand}
+			</if>
+			<if test="cj!=null and cj!=''">
+				and  cj = #{cj}
+			</if>
+			<if test="type!=null and type!=''">
+				and  type = #{type}
+			</if>
+	    </where>
+	    <if test="limit!=null and limit!=''">
+			 limit ${limit}
+		</if>
+		<if test="sort_num!=null and sort_num!=''">
+			order by sort_num
+		</if>
+	</select>
+	
+</mapper>

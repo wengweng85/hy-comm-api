@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.2.xsd
+        http://www.springframework.org/schema/tx
+	    http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+        http://www.springframework.org/schema/cache
+        http://www.springframework.org/schema/cache/spring-cache.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+        http://code.alibabatech.com/schema/dubbo
+	    http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+        ">
+
+	<!-- sqlSessionTemplate配置 -->
+	<bean id="sqlSession"  class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionFactory" />
+	</bean>
+	
+	<!-- <property name="jndiName" value="jdbc/dzyt-api" />
+		 可以兼容tomcat及weblogic
+		 <property name="resourceRef" value="true" /> 
+	-->
+	<!-- 数据源 jndi -->
+	<bean id="jndidatasource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" >
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>  
+        <property name="url" value="jdbc:mysql://169.254.117.122:45024/djyt-api"></property>  
+        <property name="username" value="root"></property>  
+        <property name="password" value="admin"></property>
+	</bean>
+	
+	<!-- 数据源 c3p0  -->
+    <!--  
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass" value="${jdbc.driverClassName}"/>
+		<property name="jdbcUrl" value="${jdbc.url}"/>
+		<property name="user" value="${jdbc.username}"/>
+		<property name="password" value="${jdbc.password}"/>
+		<property name="minPoolSize" value="${c3p0.minPoolSize}" />
+		<property name="maxPoolSize" value="${c3p0.maxPoolSize}" />
+		<property name="maxIdleTime" value="${c3p0.maxIdleTime}" />
+		<property name="acquireIncrement" value="${c3p0.acquireIncrement}" />
+		<property name="maxStatements" value="${c3p0.maxStatements}" />
+		<property name="initialPoolSize" value="${c3p0.initialPoolSize}" />
+		<property name="idleConnectionTestPeriod" value="${c3p0.idleConnectionTestPeriod}" />
+		<property name="acquireRetryAttempts" value="${c3p0.acquireRetryAttempts}" />
+		<property name="breakAfterAcquireFailure" value="${c3p0.breakAfterAcquireFailure}" />
+		<property name="testConnectionOnCheckout" value="${c3p0.testConnectionOnCheckout}" />
+	</bean>
+	-->
+	
+	<bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
+    	 <constructor-arg ref="jndidatasource" />
+  	</bean>
+	
+    <!-- 解决mybatis的bug，mapper文件出错，mybatis没有把异常抛出，直接卡死-->
+	<bean id="sqlSessionFactory" class="com.insigma.common.mybatis.FixedSqlSessionFactory">
+		<property name="dataSource" ref="dataSource" />
+		<property name="mapperLocations" value="classpath*:com/insigma/mvc/repository/main/mapper/**/*.xml"/>
+		<property name="configLocation" value="classpath:config/mybatis/mybatis-mysql-config.xml" />
+		<property name="typeAliasesPackage" value="com.insigma.mvc.repository.main.model"/>
+	</bean>
+	
+	<!-- 自动扫描了所有的XxxxMapper.xml对应的mapper接口文件，这样就不用一个一个手动配置Mpper的映射了，只要Mapper接口类和Mapper映射文件对应起来就可以了。 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.insigma.mvc.repository.main.dao" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property> 
+	</bean>
+	
+	<!-- 事务管理器 -->  
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">  
+	    <property name="dataSource" ref="dataSource" />  
+	</bean>  
+	
+	<!-- 事务aop配置 -->
+	<!--  
+	<aop:config>  
+		<aop:pointcut id="serviceMethods" expression="execution( * com.insigma.mvc.serviceimp..*.*(..))"/>   
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="serviceMethods"/>   
+	</aop:config>  
+    <tx:advice id="txAdvice" transaction-manager="txManager">  
+	    <tx:attributes>  
+            <tx:method name="remove*" propagation="REQUIRED" read-only="false" rollback-for="java.lang.Exception" no-rollback-for="java.lang.RuntimeException" />  
+            <tx:method name="delete*" propagation="REQUIRED" read-only="false" rollback-for="java.lang.Exception" no-rollback-for="java.lang.RuntimeException" />  
+            <tx:method name="add*" propagation="REQUIRED" read-only="false"  rollback-for="java.lang.Exception" no-rollback-for="java.lang.RuntimeException" /> 
+            <tx:method name="insert*" propagation="REQUIRED" read-only="false" rollback-for="java.lang.Exception" no-rollback-for="java.lang.RuntimeException" />  
+            <tx:method name="save*" propagation="REQUIRED" read-only="false" rollback-for="java.lang.Exception" no-rollback-for="java.lang.RuntimeException" />  
+            <tx:method name="update*" propagation="REQUIRED" read-only="false" rollback-for="java.lang.Exception" no-rollback-for="java.lang.RuntimeException" />   
+            <tx:method name="get*" propagation="SUPPORTS" read-only="true" />  
+            <tx:method name="list*" propagation="SUPPORTS" read-only="true" />  
+            <tx:method name="query*" propagation="SUPPORTS" read-only="true" />  
+            <tx:method name="find*" propagation="SUPPORTS" read-only="true" />  
+         </tx:attributes> 
+	</tx:advice>
+	-->
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+</beans>

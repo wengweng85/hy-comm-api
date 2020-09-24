@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<!-- mysql -->
+ <Context>
+	<Resource 
+		name="jdbc/api"
+		factory="com.alibaba.druid.pool.DruidDataSourceFactory"
+		filters="config"
+		type="javax.sql.DataSource" 
+		username="root"
+		password="123456"
+		driverClassName="com.mysql.jdbc.Driver" 
+		maxIdle="2" 
+		maxWait="5000" 
+		validationQuery="select 1 from dual" 
+		url="jdbc:mysql://127.0.0.1:3306/hy_tymh" 
+		maxActive="10"
+		/>	
+</Context>
+
+<!-- dm -->
+<!-- <Context>
+	<Resource 
+		name="jdbc/api"
+		factory="com.alibaba.druid.pool.DruidDataSourceFactory"
+		filters="config"
+		type="javax.sql.DataSource" 
+		username="hy_tymh"
+		password="hy_tymh123"
+		driverClassName="dm.jdbc.driver.DmDriver" 
+		maxIdle="2" 
+		maxWait="5000" 
+		validationQuery="select 1 from dual" 
+		url="jdbc:dm://127.0.0.1:5237/DAMENG" 
+		maxActive="10"
+		/>	
+</Context> -->
+
+
+
+<!-- oracle -->
+<!-- <?xml version="1.0" encoding="UTF-8"?>
+<Context>
+	<Resource 
+		name="jdbc/api"
+		factory="com.alibaba.druid.pool.DruidDataSourceFactory"
+		filters="config"
+		type="javax.sql.DataSource" 
+		username="hy_tymh"
+		password="hy_tymh"
+		driverClassName="oracle.jdbc.driver.OracleDriver" 
+		maxIdle="2" 
+		maxWait="5000" 
+		validationQuery="select 1 from dual" 
+		url="jdbc:oracle:thin:@127.0.0.1:1521:orcl"
+		maxActive="10"
+		/>	
+</Context> -->

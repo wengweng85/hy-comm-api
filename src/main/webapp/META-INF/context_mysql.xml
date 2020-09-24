@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+	<Resource 
+		name="jdbc/api"
+		factory="com.alibaba.druid.pool.DruidDataSourceFactory"
+		filters="config"
+		type="javax.sql.DataSource" 
+		username="hy_tymh"
+		password="hy_tymh"
+		driverClassName="dm.jdbc.driver.DmDriver" 
+		maxIdle="2" 
+		maxWait="5000" 
+		validationQuery="select 1 from dual" 
+		url="jdbc:dm://127.0.0.1:5237/DAMENG" 
+		maxActive="10"
+		/>	
+</Context>

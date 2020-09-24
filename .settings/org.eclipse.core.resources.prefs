@@ -1,0 +1,14 @@
+eclipse.preferences.version=1
+encoding//src/main/java=GBK
+encoding//src/main/java/com/insigma/common/rsa/AESCBCUtils.java=UTF-8
+encoding//src/main/java/com/insigma/common/rsa/EncryptUtil.java=UTF-8
+encoding//src/main/java/com/insigma/dto/A01DTO.java=UTF-8
+encoding//src/main/java/com/insigma/mvc/service/rpc/RpcServiceCall.java=UTF-8
+encoding//src/main/java/com/insigma/resolver/MyCustomSimpleMappingExceptionResolver.java=UTF-8
+encoding//src/main/java/com/insigma/rpc/client/DataSourceSimpleDllServiceStub.java=UTF-8
+encoding//src/main/java/com/insigma/rpc/client/StubClientTest.java=UTF-8
+encoding//src/main/resources=GBK
+encoding//src/main/resources/messages.properties=gbk
+encoding//src/test/java=GBK
+encoding/<project>=GBK
+encoding/src=UTF-8
