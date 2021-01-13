@@ -34,7 +34,7 @@ public class MyCustomSimpleMappingExceptionResolver  extends  SimpleMappingExcep
              R<String> dto = new R<String>();
              dto.setSuccess(false);
              dto.setErrorcode(SysCode.ERROR.getCode());
-             dto.setErrormsg(SysCode.ERROR.getCodemsg()+";异常明细"+e.getMessage()+"请联系管理员。异常信息编号:"+errorlogid);
+             dto.setErrormsg(SysCode.ERROR.getCodemsg()+"请联系管理员。异常信息编号:"+errorlogid);
              String encodedata= JSONObject.fromObject(dto).toString();
              writer.write(encodedata);
              writer.flush();
